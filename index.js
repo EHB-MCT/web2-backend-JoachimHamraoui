@@ -88,10 +88,10 @@ app.post('/villager', async (req, res) => {
         }
         // Create the new Challenge object
         let newVillager = {
-            id: req.body.ItemId,
-            filename: req.body.itemFileName,
-            name: req.body.itemName,
-            icon: req.body.itemIcon
+            id: req.body.id,
+            filename: req.body.filename,
+            name: req.body.name,
+            icon: req.body.icon
         }
 
         // Insert into the database
