@@ -111,6 +111,38 @@ app.post('/villager', async (req, res) => {
     }
 });
 
+app.delete('/villager/:id', async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).send({
+            error: 'Bad Request',
+            value: 'No id available in url'
+        });
+        return;
+    }
+
+    try {
+        //connect to the db
+        await client.connect();
+
+        //retrieve the challenges collection data
+        const colli = client.db('users').collection('villagers');
+
+        // Validation for double challenges
+        let result = await colli.deleteOne({ _id: ObjectId(req.params.id) });
+        //Send back successmessage
+        res.status(201).json(result);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 })
