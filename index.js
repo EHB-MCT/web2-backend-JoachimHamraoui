@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 //  });
 
 app.get('/', (req, res) => {
-    res.status(500).redirect('http://acnhapi.com/doc')
+    res.status(500).redirect('/info.html');
 })
 
 app.get('/villagers', async (req, res) => {
