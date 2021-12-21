@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //CORS error - https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
-//group project team cas 
+//²group project team cas 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
@@ -83,15 +83,15 @@ app.post('/villager', async (req, res) => {
         // Validation for double challenges
         const villager = await collection.findOne({ _id: ObjectId(req.params.id) });
         if (villager) {
-            res.status(400).send(`Bad request: Challenge already exists with name ${req.body.name} for course ${req.body.course}`);
+            res.status(400).send(`Bad request: Villager with name ${req.body.name} has already been added`);
             return;
         }
         // Create the new Challenge object
         let newVillager = {
-            id: req.body.id,
-            filename: req.body["file-name"],
-            name: req.body.name["name-EUen"],
-            icon: req.body["icon_uri"]
+            id: req.body.ItemId,
+            filename: req.body.itemFileName,
+            name: req.body.itemName,
+            icon: req.body.itemIcon
         }
 
         // Insert into the database
