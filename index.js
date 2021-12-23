@@ -262,6 +262,363 @@ app.delete('/fish/:id', async (req, res) => {
     }
 })
 
+// bugs
+
+app.get('/bugs', async (req, res) => {
+
+    try {
+        await client.connect();
+        const collection = client.db('users').collection('bugs');
+        const bugs = await collection.find({}).toArray();
+
+        res.status(200).send(bugs);
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        client.close();
+    }
+
+})
+
+app.get('/bugs/:id', async (req, res) => {
+
+    try {
+        await client.connect();
+        const collection = client.db('users').collection('bugs');
+        const query = { _id: ObjectId(req.params.id) };
+        const bugs = await collection.findOne(query);
+
+        res.status(200).send(bugs);
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        client.close();
+    }
+
+})
+
+app.post('/bugs', async (req, res) => {
+
+    try {
+        //connect to the db
+        await client.connect();
+
+        //retrieve the challenges collection data
+        const collection = client.db('users').collection('bugs');
+
+        // Validation for double challenges
+        const bugs = await collection.findOne({ _id: ObjectId(req.params.id) });
+        if (bugs) {
+            res.status(400).send(`Bad request: Villager with name ${req.body.name} has already been added`);
+            return;
+        }
+        // Create the new Challenge object
+        let newBug = {
+            id: req.body.id,
+            filename: req.body.filename,
+            name: req.body.name,
+            icon: req.body.icon
+        }
+
+        // Insert into the database
+        let insertResult = await collection.insertOne(newBug);
+
+        //Send back successmessage
+        res.status(201).json(newBug);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+});
+
+app.delete('/bugs/:id', async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).send({
+            error: 'Bad Request',
+            value: 'No id available in url'
+        });
+        return;
+    }
+
+    try {
+        //connect to the db
+        await client.connect();
+
+        //retrieve the challenges collection data
+        const colli = client.db('users').collection('bugs');
+
+        // Validation for double challenges
+        let result = await colli.deleteOne({ _id: ObjectId(req.params.id) });
+        //Send back successmessage
+        res.status(201).json(result);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+})
+
+// seacreatures
+
+app.get('/seacreatures', async (req, res) => {
+
+    try {
+        await client.connect();
+        const collection = client.db('users').collection('seacreatures');
+        const seacreatures = await collection.find({}).toArray();
+
+        res.status(200).send(seacreatures);
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        client.close();
+    }
+
+})
+
+app.get('/seacreature/:id', async (req, res) => {
+
+    try {
+        await client.connect();
+        const collection = client.db('users').collection('seacreatures');
+        const query = { _id: ObjectId(req.params.id) };
+        const seacreatures = await collection.findOne(query);
+
+        res.status(200).send(seacreatures);
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        client.close();
+    }
+
+})
+
+app.post('/seacreature', async (req, res) => {
+
+    try {
+        //connect to the db
+        await client.connect();
+
+        //retrieve the challenges collection data
+        const collection = client.db('users').collection('seacreatures');
+
+        // Validation for double challenges
+        const seacreatures = await collection.findOne({ _id: ObjectId(req.params.id) });
+        if (seacreatures) {
+            res.status(400).send(`Bad request: Villager with name ${req.body.name} has already been added`);
+            return;
+        }
+        // Create the new Challenge object
+        let newSeaCreature = {
+            id: req.body.id,
+            filename: req.body.filename,
+            name: req.body.name,
+            icon: req.body.icon
+        }
+
+        // Insert into the database
+        let insertResult = await collection.insertOne(newSeaCreature);
+
+        //Send back successmessage
+        res.status(201).json(newSeaCreature);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+});
+
+app.delete('/seacreature/:id', async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).send({
+            error: 'Bad Request',
+            value: 'No id available in url'
+        });
+        return;
+    }
+
+    try {
+        //connect to the db
+        await client.connect();
+
+        //retrieve the challenges collection data
+        const colli = client.db('users').collection('seacreature');
+
+        // Validation for double challenges
+        let result = await colli.deleteOne({ _id: ObjectId(req.params.id) });
+        //Send back successmessage
+        res.status(201).json(result);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+})
+
+// art
+
+app.get('/art', async (req, res) => {
+
+    try {
+        await client.connect();
+        const collection = client.db('users').collection('art');
+        const art = await collection.find({}).toArray();
+
+        res.status(200).send(art);
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        client.close();
+    }
+
+})
+
+app.get('/art/:id', async (req, res) => {
+
+    try {
+        await client.connect();
+        const collection = client.db('users').collection('art');
+        const query = { _id: ObjectId(req.params.id) };
+        const art = await collection.findOne(query);
+
+        res.status(200).send(art);
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        client.close();
+    }
+
+})
+
+app.post('/art', async (req, res) => {
+
+    try {
+        //connect to the db
+        await client.connect();
+
+        //retrieve the challenges collection data
+        const collection = client.db('users').collection('art');
+
+        // Validation for double challenges
+        const seacreatures = await collection.findOne({ _id: ObjectId(req.params.id) });
+        if (seacreatures) {
+            res.status(400).send(`Bad request: Villager with name ${req.body.name} has already been added`);
+            return;
+        }
+        // Create the new Challenge object
+        let newArtPiece = {
+            id: req.body.id,
+            filename: req.body.filename,
+            name: req.body.name,
+            image: req.body.image
+        }
+
+        // Insert into the database
+        let insertResult = await collection.insertOne(newArtPiece);
+
+        //Send back successmessage
+        res.status(201).json(newArtPiece);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+});
+
+app.delete('/art/:id', async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).send({
+            error: 'Bad Request',
+            value: 'No id available in url'
+        });
+        return;
+    }
+
+    try {
+        //connect to the db
+        await client.connect();
+
+        //retrieve the challenges collection data
+        const colli = client.db('users').collection('art');
+
+        // Validation for double challenges
+        let result = await colli.deleteOne({ _id: ObjectId(req.params.id) });
+        //Send back successmessage
+        res.status(201).json(result);
+        return;
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Something went wrong',
+            value: error
+        });
+    } finally {
+        await client.close();
+    }
+})
+
 
 
 app.listen(port, () => {
