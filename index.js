@@ -208,9 +208,9 @@ app.post('/fish', async (req, res) => {
         // Create the new Challenge object
         let newFish = {
             id: req.body.id,
-            filename: req.body["file-name"],
-            name: req.body.name["name-EUen"],
-            icon: req.body["icon_uri"]
+            filename: req.body.filename,
+            name: req.body.name,
+            icon: req.body.icon
         }
 
         // Insert into the database
